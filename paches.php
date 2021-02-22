@@ -281,3 +281,55 @@ index edd4751..84af623 100644
 +function _features_clean_title($matches) {
 +  return $matches[1] ? '-' : '';
  }
+ 
+ diff --git a/templates/system/misc/table.func.php b/templates/system/misc/table.func.php
+index d4494c8..c127354 100644
+--- a/templates/system/misc/table.func.php
++++ b/templates/system/misc/table.func.php
+@@ -111,7 +111,7 @@ function wetkit_bootstrap_table($variables) {
+   $responsive = $variables['responsive'];
+ 
+   // Add sticky headers, if applicable.
+-  if (count($header) && $sticky) {
++  if (!empty($header) && count($header) && $sticky) {
+     drupal_add_js('misc/tableheader.js');
+     // Add 'sticky-enabled' class to the table to identify it for JS.
+     // This is needed to target tables constructed by this function.
+	 
+	 diff --git a/templates/system/misc/table.func.php b/templates/system/misc/table.func.php
+index d4494c8..c127354 100644
+--- a/templates/system/misc/table.func.php
++++ b/templates/system/misc/table.func.php
+@@ -111,7 +111,7 @@ function wetkit_bootstrap_table($variables) {
+   $responsive = $variables['responsive'];
+ 
+   // Add sticky headers, if applicable.
+-  if (count($header) && $sticky) {
++  if (!empty($header) && count($header) && $sticky) {
+     drupal_add_js('misc/tableheader.js');
+     // Add 'sticky-enabled' class to the table to identify it for JS.
+     // This is needed to target tables constructed by this function.
+	 
+	 diff --git a/libraries.module b/libraries.module
+index 62d3d79..63b5d1a 100644
+--- a/libraries.module
++++ b/libraries.module
+@@ -576,7 +576,7 @@ function libraries_detect($name = NULL) {
+       $library['version'] = call_user_func_array($library['version callback'], array_merge(array($library), $library['version arguments']));
+     }
+     else {
+-      $library['version'] = call_user_func($library['version callback'], $library, $library['version arguments']);
++      $library['version'] = call_user_func_array($library['version callback'], array(&$library, $library['version arguments']));
+     }
+     if (empty($library['version'])) {
+       $library['error'] = 'not detected';
+	   
+	   
+	     $responsive = $variables['responsive'];
+
+  // Add sticky headers, if applicable.
+  if (count($header) && $sticky) {
+  if (!empty($header) && count($header) && $sticky) {
+    drupal_add_js('misc/tableheader.js');
+    // Add 'sticky-enabled' class to the table to identify it for JS.
+    // This is needed to target tables constructed by this function.
